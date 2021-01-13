@@ -56,15 +56,55 @@
 		ADD7F23225AEF47500BC5D57 /* PokemonTest */ = {
 			isa = PBXGroup;
 			children = (
-				ADD7F23325AEF47500BC5D57 /* AppDelegate.swift */,
-				ADD7F23525AEF47500BC5D57 /* SceneDelegate.swift */,
-				ADD7F23725AEF47500BC5D57 /* ViewController.swift */,
-				ADD7F23925AEF47500BC5D57 /* Main.storyboard */,
-				ADD7F23C25AEF47700BC5D57 /* Assets.xcassets */,
-				ADD7F23E25AEF47700BC5D57 /* LaunchScreen.storyboard */,
+				ADD7F24825AEF51200BC5D57 /* Classes */,
+				ADD7F24A25AEF52C00BC5D57 /* Resources */,
 				ADD7F24125AEF47700BC5D57 /* Info.plist */,
 			);
 			path = PokemonTest;
+			sourceTree = "<group>";
+		};
+		ADD7F24825AEF51200BC5D57 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7F23325AEF47500BC5D57 /* AppDelegate.swift */,
+				ADD7F23525AEF47500BC5D57 /* SceneDelegate.swift */,
+				ADD7F24925AEF52000BC5D57 /* Controllers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		ADD7F24925AEF52000BC5D57 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7F23725AEF47500BC5D57 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		ADD7F24A25AEF52C00BC5D57 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7F24C25AEF54000BC5D57 /* Storyboard */,
+				ADD7F24B25AEF53800BC5D57 /* Assets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		ADD7F24B25AEF53800BC5D57 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7F23C25AEF47700BC5D57 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		ADD7F24C25AEF54000BC5D57 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				ADD7F23925AEF47500BC5D57 /* Main.storyboard */,
+				ADD7F23E25AEF47700BC5D57 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
