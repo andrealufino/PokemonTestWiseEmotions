@@ -33,11 +33,6 @@ extension Pokedex {
     @discardableResult
     func update(_ pokemon: Pokemon) -> Bool {
         
-        if var aPokemon = self.pokemonSet!.first(where: {$0.name == pokemon.name }) {
-            aPokemon = pokemon
-            return true
-        }
-        
-        return false
+        return (pokemonSet?.update(with: pokemon) != nil) ? true : false
     }
 }

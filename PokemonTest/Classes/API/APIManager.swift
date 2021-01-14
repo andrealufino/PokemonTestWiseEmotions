@@ -30,10 +30,17 @@ struct APIManager {
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)
+                let json = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: Any]
+                let rawArray = json!["results"] as! Array<Dictionary<String, Any>>
+                var pokemon = [Pokemon]()
+                rawArray.forEach { (element) in
+                    let aPokemon = Pokemon()
+                    aPokemon.identifier = Int(((element["url"] as? String)?.dropLast().components(separatedBy: "/").last)!)
+                    aPokemon.name = (element["name"] as? String)?.capitalized
+                    pokemon.append(aPokemon)
+                }
                 
-                print(json)
-                
+                completion(.success(pokemon))
                 
             } catch (let error) {
                 print("Error during serialization.")
