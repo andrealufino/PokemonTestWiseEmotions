@@ -39,6 +39,9 @@ class PokemonDetailsViewModel {
     }
 }
 
+
+// MARK: - Fetching
+
 extension PokemonDetailsViewModel {
     
     func fetchPokemonDetails(_ pokemon: Pokemon) {
@@ -55,5 +58,15 @@ extension PokemonDetailsViewModel {
                 break
             }
         }
+    }
+}
+
+
+// MARK: - Cell Identifiers
+
+extension PokemonDetailsViewModel {
+    
+    struct CellIdentifiers {
+        static let pokemonDetails           = "pokemonDetailsCell"
     }
 }

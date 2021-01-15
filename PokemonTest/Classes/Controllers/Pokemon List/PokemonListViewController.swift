@@ -37,6 +37,8 @@ class PokemonListViewController: UIViewController {
     // MARK: UI
     
     override func loadView() {
+        
+        // MARK: Set views
 
         view = UIView()
         view.backgroundColor = .white
@@ -54,6 +56,8 @@ class PokemonListViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.tableFooterView = UIView.init()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // MARK: Activate constraints
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: tableView.superview!.topAnchor),

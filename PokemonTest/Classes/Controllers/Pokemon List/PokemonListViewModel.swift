@@ -35,6 +35,8 @@ class PokemonListViewModel {
 }
 
 
+// MARK: - Fetching
+
 extension PokemonListViewModel {
     
     func fetchPokemon() {
@@ -56,6 +58,8 @@ extension PokemonListViewModel {
     }
 }
 
+
+// MARK: - Cell Identifiers
 
 extension PokemonListViewModel {
     
