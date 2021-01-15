@@ -19,7 +19,13 @@ class PokemonDetailsViewController: UIViewController {
     var lblTypes: UILabel!
     var tableView: UITableView!
     
+    var tableViewHeight: NSLayoutConstraint?
+    
     var pokemon: Pokemon?
+    
+    var viewModel: PokemonDetailsViewModel?
+    
+    private let cellHeight: CGFloat = 60
 }
 
 
@@ -36,6 +42,14 @@ extension PokemonDetailsViewController {
         tableView.delegate = self
         
         tableView.register(PokemonDetailsStatsTableViewCell.self, forCellReuseIdentifier: "cell")
+        
+        viewModel = PokemonDetailsViewModel.init(withDelegate: self)
+        
+        UIApplication.shared.keyWindow?.showBlurredActivityIndicator(withBlurEffect: .extraLight)
+        
+        viewModel?.fetchPokemonDetails(pokemon!)
+        
+        lblName.text = pokemon?.name?.capitalized
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,7 +126,10 @@ extension PokemonDetailsViewController {
         
         tableView = UITableView.init()
         tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
         scrollView.addSubview(tableView)
+        
+        tableViewHeight = tableView.heightAnchor.constraint(equalToConstant: cellHeight)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         pokemonImage.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +146,7 @@ extension PokemonDetailsViewController {
             pokemonImage.topAnchor.constraint(equalTo: pokemonImage.superview!.topAnchor),
             pokemonImage.leadingAnchor.constraint(equalTo: pokemonImage.superview!.leadingAnchor),
             pokemonImage.trailingAnchor.constraint(equalTo: pokemonImage.superview!.trailingAnchor),
-            pokemonImage.heightAnchor.constraint(equalTo: pokemonImage.superview!.heightAnchor, multiplier: 0.35),
+            pokemonImage.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 2/3),
             pokemonImage.centerXAnchor.constraint(equalTo: pokemonImage.superview!.centerXAnchor),
             lblName.topAnchor.constraint(equalTo: pokemonImage.bottomAnchor, constant: 20),
             lblName.leadingAnchor.constraint(equalTo: lblName.superview!.leadingAnchor, constant: 30),
@@ -143,9 +160,9 @@ extension PokemonDetailsViewController {
             tableView.topAnchor.constraint(equalTo: lblTypes.bottomAnchor, constant: 30),
             tableView.leadingAnchor.constraint(equalTo: lblTypes.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: lblTypes.trailingAnchor),
-            tableView.heightAnchor.constraint(equalToConstant: 360),
             tableView.centerXAnchor.constraint(equalTo: lblTypes.centerXAnchor),
-            tableView.bottomAnchor.constraint(equalTo: tableView.superview!.bottomAnchor, constant: -20)
+            tableView.bottomAnchor.constraint(equalTo: tableView.superview!.bottomAnchor, constant: -20),
+            tableViewHeight!
         ])
     }
 }
@@ -162,12 +179,12 @@ extension PokemonDetailsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 60
+        return cellHeight
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        return 60
+        return cellHeight
     }
 }
 
@@ -183,7 +200,7 @@ extension PokemonDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 6
+        return pokemon?.stats?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -191,6 +208,46 @@ extension PokemonDetailsViewController: UITableViewDataSource {
         let cellIdentifier = "cell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! PokemonDetailsStatsTableViewCell
         
+        let stat = pokemon!.stats![indexPath.row]
+        
+        cell.lblTitle.text = stat.name
+        cell.lblValue.text = "\(stat.value!)"
+        
         return cell
+    }
+}
+
+
+extension PokemonDetailsViewController: PokemonDetailsViewModelDelegate {
+    
+    func pokemonDetailsViewModelDidStartFetching(_ viewModel: PokemonDetailsViewModel) {
+        
+    }
+    
+    func pokemonDetailsViewModelDidFinishFetching(_ viewModel: PokemonDetailsViewModel) {
+        
+        DispatchQueue.main.async {
+            UIApplication.shared.keyWindow?.hideBlurredActivityIndicator()
+        }
+    }
+    
+    func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithError error: Error) {
+        
+    }
+    
+    func pokemonDetailsViewModelDidFinishFetchingWithSuccess(_ viewModel: PokemonDetailsViewModel) {
+        
+    }
+    
+    func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithSuccess pokemon: Pokemon) {
+        
+        self.pokemon = pokemon
+        
+        DispatchQueue.main.async {
+            self.tableViewHeight?.constant = self.cellHeight * CGFloat(pokemon.stats!.count)
+            print("Table height is \(self.cellHeight * CGFloat(pokemon.stats!.count))")
+            self.tableView.layoutIfNeeded()
+            self.tableView.reloadData()
+        }
     }
 }

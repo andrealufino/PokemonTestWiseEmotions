@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 // MARK: - Instance vars and IBOutlets
 
 class PokemonDetailsStatsTableViewCell: UITableViewCell {
@@ -22,6 +23,7 @@ class PokemonDetailsStatsTableViewCell: UITableViewCell {
         
         lblTitle = UILabel.init()
         lblTitle.font = UIFont.boldSystemFont(ofSize: 18)
+        lblTitle.minimumScaleFactor = 0.6
         lblTitle.backgroundColor = .green
         lblTitle.text = "HP"
         addSubview(lblTitle)
@@ -40,7 +42,7 @@ class PokemonDetailsStatsTableViewCell: UITableViewCell {
             lblTitle.topAnchor.constraint(equalTo: lblTitle.superview!.topAnchor, constant: 10),
             lblTitle.leadingAnchor.constraint(equalTo: lblTitle.superview!.leadingAnchor, constant: 10),
             lblTitle.bottomAnchor.constraint(equalTo: lblTitle.superview!.bottomAnchor, constant: -10),
-            lblTitle.widthAnchor.constraint(equalTo: lblTitle.superview!.widthAnchor, multiplier: 0.25),
+            lblTitle.widthAnchor.constraint(equalTo: lblTitle.superview!.widthAnchor, multiplier: 0.7),
             lblValue.topAnchor.constraint(equalTo: lblTitle.topAnchor),
             lblValue.leadingAnchor.constraint(equalTo: lblTitle.trailingAnchor, constant: 20),
             lblValue.trailingAnchor.constraint(equalTo: lblValue.superview!.trailingAnchor, constant: -10),

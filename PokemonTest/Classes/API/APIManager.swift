@@ -36,7 +36,7 @@ struct APIManager {
                 rawArray.forEach { (element) in
                     let aPokemon = Pokemon()
                     aPokemon.identifier = Int(((element["url"] as? String)?.dropLast().components(separatedBy: "/").last)!)
-                    aPokemon.name = (element["name"] as? String)?.capitalized
+                    aPokemon.name = element["name"] as? String
                     pokemon.append(aPokemon)
                 }
                 

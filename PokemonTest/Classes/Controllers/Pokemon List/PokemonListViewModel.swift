@@ -42,6 +42,9 @@ extension PokemonListViewModel {
         delegate?.pokemonListViewModelDidStartFetching(self)
         
         APIManager.list { (result) in
+            
+            self.delegate?.pokemonListViewModelDidFinishFetching(self)
+            
             switch result {
             case .success(let pokemon):
                 self.delegate?.pokemonListViewModelDidFinishFetchingWithSuccess(self)
