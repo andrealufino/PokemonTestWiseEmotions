@@ -13,6 +13,7 @@ class PokemonListViewController: UIViewController {
     var tableView: UITableView!
     
     var pokemon: [Pokemon]?
+    var isLastPage: Bool?
     
     var viewModel: PokemonListViewModel?
 
@@ -28,8 +29,7 @@ class PokemonListViewController: UIViewController {
         tableView.register(PokemonListTableViewCell.self, forCellReuseIdentifier: PokemonListViewModel.CellIdentifiers.pokemonList)
         
         pokemon = []
-        
-        UIApplication.shared.keyWindow?.showBlurredActivityIndicator(withBlurEffect: .dark)
+        isLastPage = false
         
         viewModel?.fetchPokemon()
     }
@@ -129,6 +129,11 @@ extension PokemonListViewController: UITableViewDataSource {
             }
         }
         
+        if (indexPath.row == pokemon!.count - 5) {
+            // Start fetching next page
+            viewModel?.fetchPokemon()
+        }
+        
         return cell
     }
 }
@@ -140,6 +145,7 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
     
     func pokemonListViewModelDidStartFetching(_ viewModel: PokemonListViewModel) {
         
+        UIApplication.shared.keyWindow?.showBlurredActivityIndicator(withBlurEffect: .dark)
     }
     
     func pokemonListViewModelDidFinishFetching(_ viewModel: PokemonListViewModel) {
@@ -150,7 +156,12 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
     }
     
     func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithError error: Error) {
+        
         print("Error! \(error.localizedDescription)")
+        
+        DispatchQueue.main.async {
+            UIApplication.shared.keyWindow?.hideBlurredActivityIndicator()
+        }
     }
     
     func pokemonListViewModelDidFinishFetchingWithSuccess(_ viewModel: PokemonListViewModel) {
@@ -160,10 +171,15 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
     
     func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithSuccess pokemon: [Pokemon]) {
         
-        self.pokemon = pokemon
+        self.pokemon?.append(contentsOf: pokemon)
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    func pokemonListViewModelNoMorePokemonToLoad(_ viewModel: PokemonListViewModel) {
+        
+        print("No more pokemon to load, list is full.")
     }
 }

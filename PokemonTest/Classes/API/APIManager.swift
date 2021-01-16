@@ -15,11 +15,11 @@ struct APIManager {
     
     // MARK: Methods
     
-    static func list(limit: Int? = nil, completion: @escaping (Result<[Pokemon], Error>) -> Void) {
+    static func list(limit: Int? = nil, offset: Int? = nil, completion: @escaping (Result<[Pokemon], Error>) -> Void) {
         
         var url = baseURL + "pokemon"
-        if let aLimit = limit {
-            url += "?limit=\(aLimit)"
+        if let aLimit = limit, let anOffset = offset {
+            url += "?limit=\(aLimit)&offset=\(anOffset)"
         }
         
         URLSession.shared.dataTask(with: URL.init(string: url)!) {(data, response, error) in
@@ -30,7 +30,7 @@ struct APIManager {
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: Any]
+                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
                 let rawArray = json!["results"] as! Array<Dictionary<String, Any>>
                 var pokemon = [Pokemon]()
                 rawArray.forEach { (element) in
@@ -43,7 +43,6 @@ struct APIManager {
                 completion(.success(pokemon))
                 
             } catch (let error) {
-                print("Error during serialization.")
                 completion(.failure(error))
             }
             
@@ -67,7 +66,6 @@ struct APIManager {
                 completion(.success(pokemon))
                 
             } catch (let error) {
-                print("Error during serialization. Details: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }.resume()
