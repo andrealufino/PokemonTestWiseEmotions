@@ -34,8 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let masterNavVC = UINavigationController.init(rootViewController: masterVC)
             let detailNavVC = UINavigationController.init(rootViewController: detailVC)
             splitVC!.viewControllers = [masterNavVC, detailNavVC]
-            // Assign delegate
             masterVC.delegate = detailVC
+            splitVC?.preferredDisplayMode = .allVisible
             window?.rootViewController = splitVC
             window?.makeKeyAndVisible()
         }
