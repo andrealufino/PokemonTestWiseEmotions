@@ -16,9 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        window = UIWindow.init(frame: UIScreen.main.bounds)
+        
         if UIDevice.current.userInterfaceIdiom == .phone {
             print("AppDelegate - iPhone")
-            window = UIWindow.init(frame: UIScreen.main.bounds)
             let pokemonListViewController = PokemonListViewController.init()
             window?.rootViewController = UINavigationController.init(rootViewController: pokemonListViewController)
             pokemonListViewController.view.backgroundColor = .yellow
@@ -38,6 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         return true
+    }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .portrait
+        } else {
+            return .all
+        }
     }
 
     // MARK: UISceneSession Lifecycle

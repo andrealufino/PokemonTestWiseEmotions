@@ -96,7 +96,12 @@ extension PokemonDetailsViewController {
     override func loadView() {
 
         view = UIView()
-        view.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            // Fallback on earlier versions
+            view.backgroundColor = .white
+        }
         
         // MARK: Set views
         
@@ -119,11 +124,12 @@ extension PokemonDetailsViewController {
         scrollView.addSubview(lblTypes)
         
         tableView = UITableView.init()
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         scrollView.addSubview(tableView)
         
-        tableViewHeight = tableView.heightAnchor.constraint(equalToConstant: cellHeight)
+        tableViewHeight = tableView.heightAnchor.constraint(equalToConstant: 0)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         pokemonImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -246,7 +252,11 @@ extension PokemonDetailsViewController: PokemonDetailsViewModelDelegate {
         
         DispatchQueue.main.async {
             
-            self.lblName.text = self.pokemon?.name?.capitalized
+            let pokemonName = self.pokemon?.name?.capitalized
+            
+            self.title = pokemonName
+            
+            self.lblName.text = pokemonName
             if let image = self.pokemonImage {
                 print("No need to download image, it has been passed by master controller.")
                 self.pokemonImageView.image = image

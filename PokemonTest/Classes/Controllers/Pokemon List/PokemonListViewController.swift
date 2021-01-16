@@ -53,13 +53,22 @@ class PokemonListViewController: UIViewController {
         // MARK: Set views
 
         view = UIView()
-        view.backgroundColor = .white
-        
         if #available(iOS 13.0, *) {
-            tableView = UITableView.init(frame: .zero, style: UITableView.Style.insetGrouped)
+            view.backgroundColor = .systemBackground
         } else {
             // Fallback on earlier versions
-            tableView = UITableView.init(frame: .zero, style: UITableView.Style.grouped)
+            view.backgroundColor = .white
+        }
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            if #available(iOS 13.0, *) {
+                tableView = UITableView.init(frame: .zero, style: UITableView.Style.insetGrouped)
+            } else {
+                // Fallback on earlier versions
+                tableView = UITableView.init(frame: .zero, style: UITableView.Style.grouped)
+            }
+        } else {
+            tableView = UITableView.init()
         }
         
         view.addSubview(tableView)

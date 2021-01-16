@@ -21,6 +21,8 @@ class PokemonDetailsStatsTableViewCell: UITableViewCell {
         
         selectionStyle = .none
         
+        backgroundColor = .clear
+        
         lblTitle = UILabel.init()
         lblTitle.font = UIFont.boldSystemFont(ofSize: 18)
         lblTitle.minimumScaleFactor = 0.6
