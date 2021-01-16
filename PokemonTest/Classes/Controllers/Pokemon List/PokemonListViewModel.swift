@@ -8,6 +8,8 @@
 import Foundation
 
 
+// MARK: - PokemonListViewModel - Delegate
+
 protocol PokemonListViewModelDelegate: AnyObject {
     func pokemonListViewModelDidStartFetching(_ viewModel: PokemonListViewModel)
     func pokemonListViewModelDidFinishFetching(_ viewModel: PokemonListViewModel)
@@ -17,15 +19,16 @@ protocol PokemonListViewModelDelegate: AnyObject {
     func pokemonListViewModelNoMorePokemonToLoad(_ viewModel: PokemonListViewModel)
 }
 
+
+// MARK: - PokemonListViewModel
+
 class PokemonListViewModel {
     
     weak var delegate: PokemonListViewModelDelegate?
     
-    // TODO: GESTIRE LA PAGINAZIONE
-    
-    var page = 0
-    let limit = 100
-    var isPokedexFull = false
+    private var page = 0
+    private let limit = 100
+    private var isPokedexFull = false
     
     init() {
         setup()

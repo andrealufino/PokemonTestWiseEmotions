@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var splitVC: UISplitViewController?
 
     @available(iOS 13.0, *)
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -20,9 +20,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow.init(windowScene: windowScene)
-        let pokemonListViewController = PokemonListViewController.init()
-        window?.rootViewController = UINavigationController.init(rootViewController: pokemonListViewController)
-        window?.makeKeyAndVisible()
+        
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            print("SceneDelegate - iPhone")
+            let pokemonListViewController = PokemonListViewController.init()
+            window?.rootViewController = UINavigationController.init(rootViewController: pokemonListViewController)
+            window?.makeKeyAndVisible()
+        } else {
+            print("SceneDelegate - iPad")
+            splitVC = UISplitViewController.init()
+            let masterVC = PokemonListViewController.init()
+            let detailVC = PokemonDetailsViewController.init()
+            let masterNavVC = UINavigationController.init(rootViewController: masterVC)
+            let detailNavVC = UINavigationController.init(rootViewController: detailVC)
+            splitVC!.viewControllers = [masterNavVC, detailNavVC]
+            // Assign delegate
+            masterVC.delegate = detailVC
+            window?.rootViewController = splitVC
+            window?.makeKeyAndVisible()
+        }
     }
 
     @available(iOS 13.0, *)

@@ -20,7 +20,7 @@ class Pokemon: Decodable {
         }
         
         let baseURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/"
-        var url = baseURL + "\(identifier!).png"
+        let url = baseURL + "\(identifier!).png"
         
         return url
     }
@@ -37,6 +37,7 @@ class Pokemon: Decodable {
         name = try values.decode(String.self, forKey: .name)
         types = try values.decode([Type].self, forKey: .types)
         stats = try values.decode([Statistic].self, forKey: .stats)
+        identifier = try values.decode(Int.self, forKey: .identifier)
         
         let images = try values.nestedContainer(keyedBy: AdditonalInfoCodingKeys.self, forKey: .images)
         let other = try images.nestedContainer(keyedBy: AdditonalInfoCodingKeys.self, forKey: .other)

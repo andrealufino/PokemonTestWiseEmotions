@@ -12,15 +12,15 @@ import UIKit
 
 class PokemonListTableViewCell: UITableViewCell {
     
-    var pokemonImage: UIImageView!
+    var pokemonImageView: UIImageView!
     var lblName: UILabel!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        pokemonImage = UIImageView.init()
-        pokemonImage.backgroundColor = .clear
-        addSubview(pokemonImage)
+        pokemonImageView = UIImageView.init()
+        pokemonImageView.backgroundColor = .clear
+        addSubview(pokemonImageView)
         
         lblName = UILabel.init()
         lblName.font = UIFont.boldSystemFont(ofSize: 24)
@@ -28,17 +28,17 @@ class PokemonListTableViewCell: UITableViewCell {
         lblName.backgroundColor = .clear
         addSubview(lblName)
         
-        pokemonImage.translatesAutoresizingMaskIntoConstraints = false
+        pokemonImageView.translatesAutoresizingMaskIntoConstraints = false
         lblName.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            pokemonImage.leadingAnchor.constraint(equalTo: pokemonImage.superview!.leadingAnchor, constant: 10),
-            pokemonImage.topAnchor.constraint(equalTo: pokemonImage.superview!.topAnchor, constant: 10),
-            pokemonImage.bottomAnchor.constraint(equalTo: pokemonImage.superview!.bottomAnchor, constant: -10),
-            pokemonImage.widthAnchor.constraint(equalToConstant: 80),
-            lblName.topAnchor.constraint(equalTo: pokemonImage.topAnchor),
-            lblName.bottomAnchor.constraint(equalTo: pokemonImage.bottomAnchor),
-            lblName.leadingAnchor.constraint(equalTo: pokemonImage.trailingAnchor, constant: 40),
+            pokemonImageView.leadingAnchor.constraint(equalTo: pokemonImageView.superview!.leadingAnchor, constant: 10),
+            pokemonImageView.topAnchor.constraint(equalTo: pokemonImageView.superview!.topAnchor, constant: 10),
+            pokemonImageView.bottomAnchor.constraint(equalTo: pokemonImageView.superview!.bottomAnchor, constant: -10),
+            pokemonImageView.widthAnchor.constraint(equalToConstant: 80),
+            lblName.topAnchor.constraint(equalTo: pokemonImageView.topAnchor),
+            lblName.bottomAnchor.constraint(equalTo: pokemonImageView.bottomAnchor),
+            lblName.leadingAnchor.constraint(equalTo: pokemonImageView.trailingAnchor, constant: 40),
             lblName.trailingAnchor.constraint(equalTo: lblName.superview!.trailingAnchor, constant: -10)
         ])
     }
@@ -54,7 +54,7 @@ class PokemonListTableViewCell: UITableViewCell {
 extension PokemonListTableViewCell {
     
     func activateColorSplash() {
-        let color = pokemonImage.image?.averageColor()
+        let color = pokemonImageView.image?.averageColor()
         
         backgroundColor = color
     }

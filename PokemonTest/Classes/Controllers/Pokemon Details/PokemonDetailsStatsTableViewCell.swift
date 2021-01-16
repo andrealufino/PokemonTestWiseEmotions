@@ -24,15 +24,11 @@ class PokemonDetailsStatsTableViewCell: UITableViewCell {
         lblTitle = UILabel.init()
         lblTitle.font = UIFont.boldSystemFont(ofSize: 18)
         lblTitle.minimumScaleFactor = 0.6
-        lblTitle.backgroundColor = .green
-        lblTitle.text = "HP"
         addSubview(lblTitle)
         
         lblValue = UILabel.init()
         lblValue.font = UIFont.italicSystemFont(ofSize: 18)
         lblValue.textAlignment = .right
-        lblValue.backgroundColor = .magenta
-        lblValue.text = "40"
         addSubview(lblValue)
         
         lblTitle.translatesAutoresizingMaskIntoConstraints = false

@@ -11,15 +11,31 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var splitVC: UISplitViewController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        window = UIWindow.init(frame: UIScreen.main.bounds)
-        let pokemonListViewController = PokemonListViewController.init()
-        window?.rootViewController = UINavigationController.init(rootViewController: pokemonListViewController)
-        pokemonListViewController.view.backgroundColor = .yellow
-        window?.makeKeyAndVisible()
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            print("AppDelegate - iPhone")
+            window = UIWindow.init(frame: UIScreen.main.bounds)
+            let pokemonListViewController = PokemonListViewController.init()
+            window?.rootViewController = UINavigationController.init(rootViewController: pokemonListViewController)
+            pokemonListViewController.view.backgroundColor = .yellow
+            window?.makeKeyAndVisible()
+        } else {
+            print("AppDelegate - iPad")
+            splitVC = UISplitViewController.init()
+            let masterVC = PokemonListViewController.init()
+            let detailVC = PokemonDetailsViewController.init()
+            let masterNavVC = UINavigationController.init(rootViewController: masterVC)
+            let detailNavVC = UINavigationController.init(rootViewController: detailVC)
+            splitVC!.viewControllers = [masterNavVC, detailNavVC]
+            // Assign delegate
+            masterVC.delegate = detailVC
+            window?.rootViewController = splitVC
+            window?.makeKeyAndVisible()
+        }
         
         return true
     }
