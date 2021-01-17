@@ -14,6 +14,8 @@ class Statistic: Decodable {
     var value: Int?
     var detailURL: String?
     
+    init() { }
+    
     required init(from decoder: Decoder) throws {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)

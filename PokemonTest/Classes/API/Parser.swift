@@ -32,4 +32,36 @@ class Parser {
             return .failure(error)
         }
     }
+    
+    static func pokemonDetails(_ data: Data) -> Result<Pokemon, Error> {
+        
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
+            let pokemon = Pokemon.init()
+            let rawTypes = json!["types"] as! Array<Dictionary<String, Any>>
+            var types = [Type]()
+            rawTypes.forEach { (element) in
+                let type = Type.init()
+                type.name = ((element["type"] as! [String: Any])["name"] as! String)
+                types.append(type)
+            }
+            let rawStats = json!["stats"] as! Array<Dictionary<String, Any>>
+            var stats = [Statistic]()
+            rawStats.forEach { (element) in
+                let stat = Statistic.init()
+                stat.name = ((element["stat"] as! [String: Any])["name"] as! String)
+                stat.value = (element["base_stat"] as! Int)
+                stats.append(stat)
+            }
+            pokemon.types = types
+            pokemon.stats = stats
+            pokemon.identifier = (json!["id"] as! Int)
+            pokemon.name = (json!["name"] as! String)
+            
+            return .success(pokemon)
+        } catch (let error) {
+            
+            return .failure(error)
+        }
+    }
 }

@@ -13,6 +13,8 @@ class Type: Decodable {
     var name: String?
     var iconURL: String?
     
+    init() { }
+    
     required init(from decoder: Decoder) throws {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
