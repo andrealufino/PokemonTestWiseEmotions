@@ -100,7 +100,12 @@ extension PokemonListViewController {
         if btnRetry == nil {
             btnRetry = UIButton.init(type: .system)
             btnRetry?.setTitle("Retry", for: .normal)
-            btnRetry?.tintColor = .darkText
+            if #available(iOS 13.0, *) {
+                btnRetry?.tintColor = .label
+            } else {
+                // Fallback on earlier versions
+                btnRetry?.tintColor = .darkText
+            }
             btnRetry?.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
             btnRetry?.addTarget(self, action: #selector(retry), for: .touchUpInside)
             
