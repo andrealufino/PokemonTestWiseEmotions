@@ -15,6 +15,11 @@ struct APIManager {
     
     // MARK: Methods
     
+    /// Call the web service to get the list of pokémon. 
+    /// - Parameters:
+    ///   - limit: The number of element per page.
+    ///   - offset: The number of element to leave out for this call. For example, starting from 150 the first Pokémon will be Mew, the number 151.
+    ///   - completion: The completion block, with a `Result`.
     static func list(limit: Int = 20, offset: Int = 0, completion: @escaping (Result<[Pokemon], APIError>) -> Void) {
         
         guard Reachability().isConnectedToNetwork() else {
@@ -31,26 +36,20 @@ struct APIManager {
                 return
             }
             
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
-                let rawArray = json!["results"] as! Array<Dictionary<String, Any>>
-                var pokemon = [Pokemon]()
-                rawArray.forEach { (element) in
-                    let aPokemon = Pokemon()
-                    aPokemon.identifier = Int(((element["url"] as? String)?.dropLast().components(separatedBy: "/").last)!)
-                    aPokemon.name = element["name"] as? String
-                    pokemon.append(aPokemon)
-                }
-                
+            switch Parser.pokemonFromList(data: data!) {
+            case .success(let pokemon):
                 completion(.success(pokemon))
-                
-            } catch (let error) {
-                completion(.failure(APIError.serverError.attach(debugMessage: error.localizedDescription)))
+            case .failure(let error):
+                completion(.failure(APIError.generic.attach(debugMessage: error.localizedDescription)))
             }
             
         }.resume()
     }
     
+    /// Call this web service to get the details of a specific pokémon.
+    /// - Parameters:
+    ///   - name: The name of the pokémon.
+    ///   - completion: The completion block, with a `Result`.
     static func details(forPokemonWithName name: String, completion: @escaping (Result<Pokemon, APIError>) -> Void) {
         
         guard Reachability().isConnectedToNetwork() else {

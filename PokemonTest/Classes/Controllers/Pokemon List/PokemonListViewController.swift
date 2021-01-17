@@ -35,7 +35,7 @@ class PokemonListViewController: UIViewController {
         
         viewModel = PokemonListViewModel.init(withDelegate: self)
         
-        title = "Pokèmon"
+        title = "Pokémon"
         
         tableView.delegate = self
         tableView.dataSource = self

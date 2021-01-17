@@ -11,6 +11,10 @@ import UIKit
 
 extension UIViewController {
     
+    /// Show an alert with the user message of the error.
+    /// - Parameters:
+    ///   - apiError: The `APIError` instance.
+    ///   - title: The title of the error. Default value is `Error`.
     func showAlert(withAPIError apiError: APIError, title: String = "Error") {
         
         guard !apiError.userMessage.isEmpty else {
