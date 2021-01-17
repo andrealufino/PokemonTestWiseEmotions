@@ -15,17 +15,19 @@ struct APIManager {
     
     // MARK: Methods
     
-    static func list(limit: Int? = nil, offset: Int? = nil, completion: @escaping (Result<[Pokemon], Error>) -> Void) {
+    static func list(limit: Int = 20, offset: Int = 0, completion: @escaping (Result<[Pokemon], APIError>) -> Void) {
         
-        var url = baseURL + "pokemon"
-        if let aLimit = limit, let anOffset = offset {
-            url += "?limit=\(aLimit)&offset=\(anOffset)"
+        guard Reachability().isConnectedToNetwork() else {
+            completion(.failure(APIError.noInternetConnection))
+            return
         }
+        
+        let url = baseURL + "pokemon?limit=\(limit)&offset=\(offset)"
         
         URLSession.shared.dataTask(with: URL.init(string: url)!) {(data, response, error) in
             
             guard error == nil else {
-                completion(.failure(error!))
+                completion(.failure(APIError.serverError.attach(debugMessage: error!.localizedDescription)))
                 return
             }
             
@@ -43,20 +45,25 @@ struct APIManager {
                 completion(.success(pokemon))
                 
             } catch (let error) {
-                completion(.failure(error))
+                completion(.failure(APIError.serverError.attach(debugMessage: error.localizedDescription)))
             }
             
         }.resume()
     }
     
-    static func details(forPokemonWithName name: String, completion: @escaping (Result<Pokemon, Error>) -> Void) {
+    static func details(forPokemonWithName name: String, completion: @escaping (Result<Pokemon, APIError>) -> Void) {
+        
+        guard Reachability().isConnectedToNetwork() else {
+            completion(.failure(APIError.noInternetConnection))
+            return
+        }
         
         let url = baseURL + "pokemon/\(name)"
         
         URLSession.shared.dataTask(with: URL.init(string: url)!) {(data, response, error) in
             
             guard error == nil else {
-                completion(.failure(error!))
+                completion(.failure(APIError.generic))
                 return
             }
             
@@ -66,7 +73,7 @@ struct APIManager {
                 completion(.success(pokemon))
                 
             } catch (let error) {
-                completion(.failure(error))
+                completion(.failure(APIError.serverError.attach(debugMessage: error.localizedDescription)))
             }
         }.resume()
     }

@@ -47,15 +47,3 @@ class PokemonListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
-// MARK: -
-
-extension PokemonListTableViewCell {
-    
-    func activateColorSplash() {
-        let color = pokemonImageView.image?.averageColor()
-        
-        backgroundColor = color
-    }
-}

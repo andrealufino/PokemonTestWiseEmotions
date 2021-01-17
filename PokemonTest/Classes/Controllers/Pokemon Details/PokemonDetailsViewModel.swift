@@ -13,7 +13,7 @@ import Foundation
 protocol PokemonDetailsViewModelDelegate: AnyObject {
     func pokemonDetailsViewModelDidStartFetching(_ viewModel: PokemonDetailsViewModel)
     func pokemonDetailsViewModelDidFinishFetching(_ viewModel: PokemonDetailsViewModel)
-    func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithError error: Error)
+    func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithError error: APIError)
     func pokemonDetailsViewModelDidFinishFetchingWithSuccess(_ viewModel: PokemonDetailsViewModel)
     func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithSuccess pokemon: Pokemon)
 }

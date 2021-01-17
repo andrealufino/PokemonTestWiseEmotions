@@ -238,8 +238,11 @@ extension PokemonDetailsViewController: PokemonDetailsViewModelDelegate {
         }
     }
     
-    func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithError error: Error) {
+    func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithError error: APIError) {
         
+        DispatchQueue.main.async {
+            self.showAlert(withAPIError: error)
+        }
     }
     
     func pokemonDetailsViewModelDidFinishFetchingWithSuccess(_ viewModel: PokemonDetailsViewModel) {

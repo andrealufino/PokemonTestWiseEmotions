@@ -181,12 +181,13 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
         }
     }
     
-    func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithError error: Error) {
+    func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithError error: APIError) {
         
         print("Error! \(error.localizedDescription)")
         
         DispatchQueue.main.async {
             UIApplication.shared.keyWindow?.hideBlurredActivityIndicator()
+            self.showAlert(withAPIError: error)
         }
     }
     
