@@ -21,6 +21,7 @@ protocol PokemonListViewControllerDelegate: AnyObject {
 class PokemonListViewController: UIViewController {
     
     var tableView: UITableView!
+    var btnRetry: UIButton?
     
     weak var delegate: PokemonListViewControllerDelegate?
     
@@ -86,6 +87,55 @@ class PokemonListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: tableView.superview!.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+}
+
+
+// MARK: - Retry Button
+
+extension PokemonListViewController {
+    
+    private func activateRetryButton() {
+        
+        if btnRetry == nil {
+            btnRetry = UIButton.init(type: .system)
+            btnRetry?.setTitle("Retry", for: .normal)
+            btnRetry?.tintColor = .darkText
+            btnRetry?.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+            btnRetry?.addTarget(self, action: #selector(retry), for: .touchUpInside)
+            
+            view.addSubview(btnRetry!)
+            view.bringSubviewToFront(btnRetry!)
+            
+            btnRetry?.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                btnRetry!.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                btnRetry!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                btnRetry!.widthAnchor.constraint(equalToConstant: 140),
+                btnRetry!.heightAnchor.constraint(equalToConstant: 60)
+            ])
+            
+            self.view.layoutIfNeeded()
+        } else {
+            guard btnRetry!.isHidden else {
+                return
+            }
+            
+            view.addSubview(btnRetry!)
+            view.bringSubviewToFront(btnRetry!)
+        }
+    }
+    
+    private func hideRetryButton() {
+        
+        btnRetry?.isHidden = true
+        btnRetry?.removeFromSuperview()
+    }
+    
+    @objc private func retry() {
+        
+        viewModel?.fetchPokemon()
     }
 }
 
@@ -188,6 +238,10 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
         DispatchQueue.main.async {
             UIApplication.shared.keyWindow?.hideBlurredActivityIndicator()
             self.showAlert(withAPIError: error)
+            if self.pokemon!.count == 0 {
+                // This means this is the first load
+                self.activateRetryButton()
+            }
         }
     }
     
@@ -201,6 +255,7 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
         self.pokemon?.append(contentsOf: pokemon)
         
         DispatchQueue.main.async {
+            self.hideRetryButton()
             self.tableView.reloadData()
         }
     }
