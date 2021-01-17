@@ -48,16 +48,16 @@ struct APIManager {
     
     /// Call this web service to get the details of a specific pokémon.
     /// - Parameters:
-    ///   - name: The name of the pokémon.
+    ///   - identifier: The name of the pokémon.
     ///   - completion: The completion block, with a `Result`.
-    static func details(forPokemonWithName name: String, completion: @escaping (Result<Pokemon, APIError>) -> Void) {
+    static func details(forPokemonWithIdentifier identifier: Int, completion: @escaping (Result<Pokemon, APIError>) -> Void) {
         
         guard Reachability().isConnectedToNetwork() else {
             completion(.failure(APIError.noInternetConnection))
             return
         }
         
-        let url = baseURL + "pokemon/\(name)"
+        let url = baseURL + "pokemon/\(identifier)"
         
         URLSession.shared.dataTask(with: URL.init(string: url)!) {(data, response, error) in
             

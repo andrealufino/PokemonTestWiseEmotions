@@ -15,7 +15,9 @@ class Pokedex {
     private var pokemonSet: Set<Pokemon>?
     
     var pokemon: [Pokemon] {
-        return Array(pokemonSet!)
+        return Array(pokemonSet!).sorted { (left, right) -> Bool in
+            return left.identifier! < right.identifier!
+        }
     }
     
     private init() {
@@ -34,5 +36,12 @@ extension Pokedex {
     func update(_ pokemon: Pokemon) -> Bool {
         
         return (pokemonSet?.update(with: pokemon) != nil) ? true : false
+    }
+    
+    func get(pokemonWithIdentifier identifier: Int) -> Pokemon? {
+        
+        return pokemonSet?.first(where: { (pokemon) -> Bool in
+            return pokemon.identifier! == identifier
+        })
     }
 }

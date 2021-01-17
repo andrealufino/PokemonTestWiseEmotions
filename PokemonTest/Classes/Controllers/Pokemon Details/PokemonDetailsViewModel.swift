@@ -25,6 +25,8 @@ class PokemonDetailsViewModel {
     
     weak var delegate: PokemonDetailsViewModelDelegate?
     
+    var pokemon: Pokemon?
+    
     init() {
         setup()
     }
@@ -44,18 +46,18 @@ class PokemonDetailsViewModel {
 
 extension PokemonDetailsViewModel {
     
-    func fetchPokemonDetails(_ pokemon: Pokemon) {
+    func fetchPokemonDetails(withIdentifier identifier: Int) {
         
-        APIManager.details(forPokemonWithName: pokemon.name!) { (result) in
+        APIManager.details(forPokemonWithIdentifier: identifier) { (result) in
             self.delegate?.pokemonDetailsViewModelDidFinishFetching(self)
             switch result {
             case .success(let pokemon):
+                Pokedex.shared.update(pokemon)
+                self.pokemon = Pokedex.shared.get(pokemonWithIdentifier: pokemon.identifier!)
                 self.delegate?.pokemonDetailsViewModelDidFinishFetchingWithSuccess(self)
-                self.delegate?.pokemonDetailsViewModel(self, didFinishFetchingWithSuccess: pokemon)
-                break
+                self.delegate?.pokemonDetailsViewModel(self, didFinishFetchingWithSuccess: Pokedex.shared.get(pokemonWithIdentifier: pokemon.identifier!)!)
             case .failure(let error):
                 self.delegate?.pokemonDetailsViewModel(self, didFinishFetchingWithError: error)
-                break
             }
         }
     }

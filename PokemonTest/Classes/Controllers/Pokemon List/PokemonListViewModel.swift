@@ -30,6 +30,10 @@ class PokemonListViewModel {
     private let limit = 100
     private var isPokedexFull = false
     
+    var pokemon: [Pokemon] {
+        return Pokedex.shared.pokemon
+    }
+    
     init() {
         setup()
     }
@@ -70,8 +74,10 @@ extension PokemonListViewModel {
                 } else {
                     self.page += 1
                 }
+                Pokedex.shared.add(pokemon)
                 self.delegate?.pokemonListViewModelDidFinishFetchingWithSuccess(self)
-                self.delegate?.pokemonListViewModel(self, didFinishFetchingWithSuccess: pokemon)
+//                self.delegate?.pokemonListViewModel(self, didFinishFetchingWithSuccess: pokemon)
+                self.delegate?.pokemonListViewModel(self, didFinishFetchingWithSuccess: Pokedex.shared.pokemon)
             case .failure(let error):
                 self.delegate?.pokemonListViewModel(self, didFinishFetchingWithError: error)
             }
