@@ -10,12 +10,29 @@ import Foundation
 
 // MARK: - PokemonListViewModel - Delegate
 
+/// The delegate to get the callbacks to visually fill the list of pokémon.
 protocol PokemonListViewModelDelegate: AnyObject {
+    /// Called when the fetching starts
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonListViewModelDidStartFetching(_ viewModel: PokemonListViewModel)
+    /// Called when the fetching is finished
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonListViewModelDidFinishFetching(_ viewModel: PokemonListViewModel)
+    /// Called when the fetching finishes with an error.
+    /// - Parameters:
+    ///   - viewModel: The view model that calls the method.
+    ///   - error: The error that occurred.
     func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithError error: APIError)
+    /// Called when the fetching finishes with success.
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonListViewModelDidFinishFetchingWithSuccess(_ viewModel: PokemonListViewModel)
+    /// Called when the fetching finishes with success.
+    /// - Parameters:
+    ///   - viewModel: The view model that calls the method.
+    ///   - pokemon: The array of pokémon.
     func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithSuccess pokemon: [Pokemon])
+    /// Called when there are no more pokémon to load.
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonListViewModelNoMorePokemonToLoad(_ viewModel: PokemonListViewModel)
 }
 
@@ -53,6 +70,7 @@ class PokemonListViewModel {
 
 extension PokemonListViewModel {
     
+    /// Start fetching the pokémon.
     func fetchPokemon() {
         
         guard !isPokedexFull else {
@@ -76,7 +94,6 @@ extension PokemonListViewModel {
                 }
                 Pokedex.shared.add(pokemon)
                 self.delegate?.pokemonListViewModelDidFinishFetchingWithSuccess(self)
-//                self.delegate?.pokemonListViewModel(self, didFinishFetchingWithSuccess: pokemon)
                 self.delegate?.pokemonListViewModel(self, didFinishFetchingWithSuccess: Pokedex.shared.pokemon)
             case .failure(let error):
                 self.delegate?.pokemonListViewModel(self, didFinishFetchingWithError: error)

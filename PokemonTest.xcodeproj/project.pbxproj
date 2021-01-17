@@ -116,7 +116,6 @@
 				ADD7F26E25AF5DCF00BC5D57 /* API */,
 				ADD7F24925AEF52000BC5D57 /* Controllers */,
 				ADD7F24D25AEF5D800BC5D57 /* Entities */,
-				ADD7F26B25AF5DC800BC5D57 /* Pokedex.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -159,6 +158,7 @@
 		ADD7F24D25AEF5D800BC5D57 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				ADD7F26B25AF5DC800BC5D57 /* Pokedex.swift */,
 				ADD7F24E25AEF5E900BC5D57 /* Pokemon.swift */,
 				ADD7F26525AF377100BC5D57 /* Type.swift */,
 				ADD7F26825AF52BE00BC5D57 /* Statistic.swift */,

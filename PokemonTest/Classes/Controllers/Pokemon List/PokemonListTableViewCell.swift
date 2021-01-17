@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 // MARK: - Instance vars and IBOutlets
 
 class PokemonListTableViewCell: UITableViewCell {

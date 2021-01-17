@@ -25,12 +25,11 @@ class PokemonListViewController: UIViewController {
     
     weak var delegate: PokemonListViewControllerDelegate?
     
-//    var pokemon: [Pokemon]?
-//    var isLastPage: Bool?
     var isFirstLoad: Bool?
     
     var viewModel: PokemonListViewModel?
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,8 +41,6 @@ class PokemonListViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(PokemonListTableViewCell.self, forCellReuseIdentifier: PokemonListViewModel.CellIdentifiers.pokemonList)
         
-//        pokemon = []
-//        isLastPage = false
         isFirstLoad = true
         
         viewModel?.fetchPokemon()
@@ -155,13 +152,11 @@ extension PokemonListViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-//        let pk = pokemon![indexPath.row]
         let pk = viewModel!.pokemon[indexPath.row]
         let image = (tableView.cellForRow(at: indexPath) as! PokemonListTableViewCell).pokemonImageView.image
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             let vc = PokemonDetailsViewController.init()
-//            vc.pokemon = pk
             vc.identifier = pk.identifier!
             vc.pokemonImage = image
             navigationController?.pushViewController(vc, animated: true)
@@ -193,7 +188,6 @@ extension PokemonListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        return pokemon?.count ?? 0
         return viewModel?.pokemon.count ?? 0
     }
     
@@ -202,7 +196,6 @@ extension PokemonListViewController: UITableViewDataSource {
         let cellIdentifier = PokemonListViewModel.CellIdentifiers.pokemonList
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! PokemonListTableViewCell
         
-//        let thePokemon = pokemon![indexPath.row]
         let thePokemon = viewModel!.pokemon[indexPath.row]
         
         cell.lblName.text = thePokemon.name?.capitalized
@@ -249,10 +242,6 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
         DispatchQueue.main.async {
             UIApplication.shared.keyWindow?.hideBlurredActivityIndicator()
             self.showAlert(withAPIError: error)
-//            if self.pokemon!.count == 0 {
-//                // This means this is the first load
-//                self.activateRetryButton()
-//            }
             if self.isFirstLoad! {
                 self.activateRetryButton()
             }
@@ -265,8 +254,6 @@ extension PokemonListViewController: PokemonListViewModelDelegate {
     }
     
     func pokemonListViewModel(_ viewModel: PokemonListViewModel, didFinishFetchingWithSuccess pokemon: [Pokemon]) {
-        
-//        self.pokemon?.append(contentsOf: pokemon)
         
         DispatchQueue.main.async {
             if self.isFirstLoad! {

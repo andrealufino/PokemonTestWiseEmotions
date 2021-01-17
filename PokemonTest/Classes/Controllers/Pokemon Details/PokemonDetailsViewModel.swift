@@ -10,11 +10,26 @@ import Foundation
 
 // MARK: - PokemonDetailViewModel - Delegate
 
+/// The delegate to get the callbacks to visually fill the details of the pokémon.
 protocol PokemonDetailsViewModelDelegate: AnyObject {
+    /// Called when the fetching starts.
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonDetailsViewModelDidStartFetching(_ viewModel: PokemonDetailsViewModel)
+    /// Called when the fetching finishes.
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonDetailsViewModelDidFinishFetching(_ viewModel: PokemonDetailsViewModel)
+    /// Called when the fetching finishes with an error.
+    /// - Parameters:
+    ///   - viewModel: The view model that calls the method.
+    ///   - error: The error that occurred.
     func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithError error: APIError)
+    /// Called when the fetching finishes with success.
+    /// - Parameter viewModel: The view model that calls the method.
     func pokemonDetailsViewModelDidFinishFetchingWithSuccess(_ viewModel: PokemonDetailsViewModel)
+    /// Called when the fetching finishes with success.
+    /// - Parameters:
+    ///   - viewModel: The view model that calls the method.
+    ///   - pokemon: The `Pokemon` object.
     func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithSuccess pokemon: Pokemon)
 }
 
@@ -46,6 +61,8 @@ class PokemonDetailsViewModel {
 
 extension PokemonDetailsViewModel {
     
+    /// Start fetching the details for the pokémon with the passed identifier..
+    /// - Parameter identifier: The identifier of the pokémon.
     func fetchPokemonDetails(withIdentifier identifier: Int) {
         
         APIManager.details(forPokemonWithIdentifier: identifier) { (result) in

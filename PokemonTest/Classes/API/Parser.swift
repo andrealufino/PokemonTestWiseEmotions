@@ -33,6 +33,9 @@ class Parser {
         }
     }
     
+    /// Parse the result of a web call to the service to get the details of a pokémon.
+    /// - Parameter data: The result of the call.
+    /// - Returns: `Result` with a `Pokemon` object for the success and an `Error` for the failure.
     static func pokemonDetails(_ data: Data) -> Result<Pokemon, Error> {
         
         do {

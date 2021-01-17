@@ -21,7 +21,6 @@ class PokemonDetailsViewController: UIViewController {
     
     var tableViewHeight: NSLayoutConstraint?
     
-//    var pokemon: Pokemon?
     var identifier: Int?
     var pokemonImage: UIImage?
     
@@ -48,7 +47,6 @@ extension PokemonDetailsViewController {
         viewModel = PokemonDetailsViewModel.init(withDelegate: self)
         
         if let id = identifier {
-//            viewModel?.fetchPokemonDetails(aPokemon)
             viewModel?.fetchPokemonDetails(withIdentifier: id)
         }
     }
@@ -204,7 +202,6 @@ extension PokemonDetailsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-//        return pokemon?.stats?.count ?? 0
         return viewModel?.pokemon?.stats?.count ?? 0
     }
     
@@ -213,7 +210,6 @@ extension PokemonDetailsViewController: UITableViewDataSource {
         let cellIdentifier = PokemonDetailsViewModel.CellIdentifiers.pokemonDetails
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! PokemonDetailsStatsTableViewCell
         
-//        let stat = pokemon!.stats![indexPath.row]
         let stat = viewModel!.pokemon!.stats![indexPath.row]
         
         cell.lblTitle.text = stat.name
@@ -254,8 +250,6 @@ extension PokemonDetailsViewController: PokemonDetailsViewModelDelegate {
     }
     
     func pokemonDetailsViewModel(_ viewModel: PokemonDetailsViewModel, didFinishFetchingWithSuccess pokemon: Pokemon) {
-        
-//        self.pokemon = pokemon
         
         DispatchQueue.main.async {
             

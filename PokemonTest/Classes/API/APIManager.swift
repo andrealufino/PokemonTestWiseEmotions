@@ -66,15 +66,6 @@ struct APIManager {
                 return
             }
             
-//            do {
-//                let pokemon = try JSONDecoder.init().decode(Pokemon.self, from: data!)
-//                
-//                completion(.success(pokemon))
-//                
-//            } catch (let error) {
-//                completion(.failure(APIError.serverError.attach(debugMessage: error.localizedDescription)))
-//            }
-            
             switch Parser.pokemonDetails(data!) {
             case .success(let pokemon):
                 completion(.success(pokemon))
